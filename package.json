@@ -1,5 +1,5 @@
 {
-  "name": "bobross",
+  "name": "@mahdiarjangi/bobross",
   "private": false,
   "version": "0.0.1",
   "type": "module",
@@ -17,5 +17,20 @@
     "eslint": "^9.8.0",
     "vite-plugin-eslint": "^1.8.1"
   },
-  "author": {"email": "mahdiarjangi.official@gmail.com", "name": "Mahdi Arjangi"}
+  "author": "Mahdi Arjangi <mahdiarjangi.official@gmail.com>",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arjangimahdi/bobross.git"
+  },
+  "keywords": [
+    "Canvas",
+    "Typescript"
+  ],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/arjangimahdi/bobross/issues"
+  },
+  "homepage": "https://github.com/arjangimahdi/bobross#readme",
+  "description": ""
 }
