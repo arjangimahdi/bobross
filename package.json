@@ -16,5 +16,6 @@
   "dependencies": {
     "eslint": "^9.8.0",
     "vite-plugin-eslint": "^1.8.1"
-  }
+  },
+  "author": {"email": "mahdiarjangi.official@gmail.com", "name": "Mahdi Arjangi"}
 }
