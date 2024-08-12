@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+#app {
+  @apply grid grid-cols-page justify-center overflow-x-hidden
+}
+
+:is(.grid-cols-page, .col-full) > .col-narrow {
+  grid-column: narrow;
+}
+
+:is(.grid-cols-page, .col-full) > .col-feature {
+  grid-column: feature;
+}
+
+:is(.grid-cols-page, .col-full) > .col-popout {
+  grid-column: popout;
+}
+
+:is(.grid-cols-page, .col-full) > .col-content {
+  grid-column: content;
+}
+
+:is(.grid-cols-page, .col-full) > .col-full {
+  display: grid;
+  grid-template-columns: inherit;
+  grid-column: full;
+}
+
+:is(.grid-cols-page, .col-full) > *:not(.col-full):not(.col-popout):not(.col-feature):not(.col-narrow) {
+  grid-column: content;
+}

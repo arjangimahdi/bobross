@@ -1,0 +1,20 @@
+{
+  "name": "dali",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "play": "cd ./.playground && vite"
+  },
+  "devDependencies": {
+    "typescript": "^5.2.2",
+    "vite": "^5.3.4"
+  },
+  "dependencies": {
+    "eslint": "^9.8.0",
+    "vite-plugin-eslint": "^1.8.1"
+  }
+}
