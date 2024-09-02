@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "play": "cd ./.playground && vite"
+    "play": "cd ./.playground && vite --host"
   },
   "devDependencies": {
     "typescript": "^5.2.2",
