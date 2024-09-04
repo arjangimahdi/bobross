@@ -2,7 +2,7 @@ import type { BobRossConfig } from "./types";
 
 import { onPointer, destroyPointer } from "./events";
 import { getDimensions, setStyle, setTransform, setTransition } from "./css";
-import { addPointer } from "./pointers";
+import { addPointer, getDistance, getMiddle } from "./pointers";
 
 const defaultConfig: BobRossConfig = {
     animate: false,
@@ -29,6 +29,12 @@ export class BobRoss {
     protected x: number = 0;
     protected y: number = 0;
     protected scale: number = 1;
+    
+    protected orgX: number = 0
+    protected orgY: number = 0
+    protected startClientX: number = 0
+    protected startClientY: number = 0
+    protected startScale: number = 0
 
     protected isPanning: boolean = false;
 
@@ -54,15 +60,6 @@ export class BobRoss {
 
         setStyle(this.element, "transformOrigin", "center");
         setTransition(this.element)
-
-        const result = this.constrainScale(2);
-        const panResult = this.constrainXY(150, 100, 2);
-
-        setTimeout(() => {
-            requestAnimationFrame(() => {
-                setTransform(this.element as HTMLElement, {x: panResult.x, y: panResult.y, scale: result.scale})
-            })
-        }, 2000);
     }
 
     public constrainScale(toScale: number) {
@@ -112,8 +109,41 @@ export class BobRoss {
         return result
     }
 
-    public handleDown = (event: PointerEvent) => {};
-    public handleMove = (event: PointerEvent) => {};
+    public zoom(toScale: number) {
+        const result = this.constrainScale(toScale);
+        const panResult = this.constrainXY(this.y, this.x, toScale);
+
+        requestAnimationFrame(() => {
+            setTransform(this.element as HTMLElement, {x: panResult.x, y: panResult.y, scale: result.scale})
+        })
+    }
+
+    public handleDown = (event: PointerEvent) => {
+        addPointer(this.pointers, event)
+        this.isPanning = true
+
+        this.orgX = this.x
+        this.orgY = this.y
+
+        const point = getMiddle(this.pointers)
+
+        this.startClientX = point.clientX
+        this.startClientY = point.clientY
+        this.startScale = this.scale
+    };
+    public handleMove = (event: PointerEvent) => {
+        addPointer(this.pointers, event);
+        const current = getMiddle(this.pointers)
+
+        let panX = this.orgX + (current.clientX - this.startClientX) / this.scale
+        let panY = this.orgY + (current.clientY - this.startClientY) / this.scale
+
+        const result = this.constrainXY(panX, panY, this.scale)
+
+        requestAnimationFrame(() => {
+            setTransform(this.element as HTMLElement, {x: result.x, y: result.y, scale: this.scale})
+        })
+    };
     public handleUp = (event: PointerEvent) => {};
 
     private bind(): void {

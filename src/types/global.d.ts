@@ -12,7 +12,7 @@ export interface BobRossConfig {
   startScale: number,
 }
 
-export interface CurrentValues {
+export interface TriangleValues {
   x: number
   y: number
   scale: number
