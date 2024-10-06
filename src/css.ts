@@ -1,46 +1,43 @@
-import { CurrentValues } from "./types";
+import { TriangleValues } from "./types";
 
 let styles: CSSStyleDeclaration;
-const prefixes = ["webkit", "moz", "ms"];
+const vendorPrefixes = ["webkit", "moz", "ms"];
+const prefixHistory: { [key: string]: string } = {};
 
 function createStyle() {
-    if (styles) {
-        return styles;
-    }
+    if (styles) return styles;
+
     return (styles = document.createElement("div").style);
 }
 
-const prefixCache: { [key: string]: string } = {};
-function getPrefixedName(name: string) {
-    if (prefixCache[name]) {
-        return prefixCache[name];
-    }
+function getPrefixedKey(key: string) {
+    if (prefixHistory[key]) return prefixHistory[key];
+    
     const styles = createStyle();
-    if (name in styles) {
-        return (prefixCache[name] = name);
-    }
-    const capName = name[0].toUpperCase() + name.slice(1);
-    let i = prefixes.length;
-    while (i--) {
-        const prefixedName = `${prefixes[i]}${capName}`;
-        if (prefixedName in styles) {
-            return (prefixCache[name] = prefixedName);
+
+    if (key in styles) return (prefixHistory[key] = key);
+    
+    const capitalized = key[0].toUpperCase() + key.slice(1);
+    for (let i = vendorPrefixes.length - 1; i >= 0; i--) {
+        const prefixedKey = `${vendorPrefixes[i]}${capitalized}`;
+        if (styles.hasOwnProperty(prefixedKey)) {
+            prefixHistory[key] = prefixedKey;
+            return prefixedKey;
         }
     }
 }
 
 export function setTransition(elem: HTMLElement | HTMLCanvasElement) {
-    const transform = getPrefixedName("transform");
+    const transform = getPrefixedKey("transform");
     setStyle(elem, "transition", `${transform} 400ms`);
 }
 
-export function setTransform(elem: HTMLElement | HTMLCanvasElement, { x, y, scale }: CurrentValues) {
+export function setTransform(elem: HTMLElement | HTMLCanvasElement, { x, y, scale }: TriangleValues) {
     setStyle(elem, "transform", `scale(${scale}) translate(${x}px, ${y}px)`);
 }
 
-export function setStyle(el: HTMLElement | SVGElement, name: string, value: string) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    el.style[getPrefixedName(name) as any] = value;
+export function setStyle(elem: HTMLElement | SVGElement, key: string, value: string) {
+    elem.style[getPrefixedKey(key) as any] = value;
 }
 
 export function getDimensions(elem: HTMLElement) {
