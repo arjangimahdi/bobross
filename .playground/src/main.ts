@@ -9,8 +9,8 @@ const bob = new BobRoss()
 bob.init(elem as HTMLCanvasElement)
 
 zoomInBtn?.addEventListener('click', () => {
-  bob.zoom(1.5)
+  bob.zoom(3)
 })
 zoomOutBtn?.addEventListener('click', () => {
-  bob.zoom(0.5)
+  bob.zoom(2)
 })

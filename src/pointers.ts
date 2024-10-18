@@ -25,6 +25,19 @@ export function addPointer(pointers: PointerEvent[], event: PointerEvent) {
     pointers.push(event);
 }
 
+export function removePointer(pointers: PointerEvent[], event: PointerEvent) {
+    if ((event as any).touches) {
+      while (pointers.length) {
+        pointers.pop()
+      }
+      return
+    }
+    const i = findEventIndex(pointers, event)
+    if (i > -1) {
+      pointers.splice(i, 1)
+    }
+  }
+
 export function getMiddle(pointers: PointerEvent[]) {
     pointers = pointers.slice(0)
 
